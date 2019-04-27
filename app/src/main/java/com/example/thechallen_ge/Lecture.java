@@ -1,13 +1,16 @@
 package com.example.thechallen_ge;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.media.Image;
+import java.util.List;
+import java.util.ArrayList;
 
-public class Lecture extends AppCompatActivity {
+public class Lecture {
+    private ArrayList<Image> slides = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lecture);
+    Lecture() {
+    }
+
+    public void addSlide(Image slide) {
+        slides.add(slide);
     }
 }
