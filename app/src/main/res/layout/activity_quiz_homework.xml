@@ -2,7 +2,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/DarkColor"
     android:orientation="vertical">
+
+    <!-- Displays the question -->
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Quiz 1"
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <!-- Displays the question -->
     <TextView
@@ -11,7 +27,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="8dp"
-        android:textSize="20sp" />
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <!-- Displays the answers -->
     <com.matthewtamlin.fortytwo.library.answer_group.SelectionLimitedAnswerGroup
@@ -21,11 +39,25 @@
 
     <!-- Button for submitting -->
     <Button
-        android:id="@+id/submit_button"
+        android:id="@+id/action_button"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Submit"
-        android:textSize="16sp"/>
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <!-- Button for submitting -->
+    <Button
+        android:id="@+id/officehours_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Go to Office Hours"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 </LinearLayout>
