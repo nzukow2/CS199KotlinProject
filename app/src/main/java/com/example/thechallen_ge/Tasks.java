@@ -14,7 +14,7 @@ public class Tasks extends AppCompatActivity {
 
     private CountDownTimer countDownTimer;
     private long timeLeftInMilliseconds = 30000; //30sec?
-    private boolean timerRunning;
+    private boolean timerRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +23,6 @@ public class Tasks extends AppCompatActivity {
 
         countDownText = findViewById(R.id.countdown_text);
         startStop();
-        //countdownButton = findViewById(R.id.countdown_button);
-
-/*          ((View) countdownButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-          public void onClick(View view) {
-                s
-            }
-        });
-*/
         findViewById(R.id.takeQuiz).setOnClickListener(v -> completeTask());
     }
 
@@ -71,11 +62,10 @@ public class Tasks extends AppCompatActivity {
         String timeLeftText;
         timeLeftText = "0:" + seconds;
         if (seconds < 10) {
-            timeLeftText += "0";
-            timeLeftText += seconds;
-
-            countDownText.setText(timeLeftText);
+            timeLeftText  = "0:0" + seconds;
         }
+
+        countDownText.setText(timeLeftText);
     }
 
     void completeTask() {
