@@ -26,7 +26,7 @@ public class Game {
                 Resources res = getResources();
                 String
                 getResources();
-                ContextCompat.getDrawable(getContext(), slideName)
+                ContextCompat.getDrawable(getContext(), slideName);
             }
         }
     }
