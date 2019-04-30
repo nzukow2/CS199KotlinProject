@@ -1,33 +1,97 @@
 package com.example.thechallen_ge;
 
-import android.support.v4.content.ContextCompat;
+import android.content.Intent;
+import android.util.Log;
 
-import static android.support.v4.graphics.drawable.IconCompat.getResources;
-import static java.security.AccessController.getContext;
+import java.util.ArrayList;
 
 public class Game {
-    int score;
-    String[] days;
-    Lecture[] lectures;
+    private double grade = 0;
+    public String[] days = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    private int currentDay = 1;
+    private int homeworkNumber = 1;
+    private int quizNumber = 1;
+    private ArrayList<Lecture> lectures = new ArrayList<>();
+    private int currentLectureIndex = 0;
+    private boolean followed = true;
+    private boolean tookQuiz = false;
 
-    Game() {
-        score = 0;
-        days = new String[] {"Monday", "Tuesday", "Wednesday", "Friday", "Saturday", "Sunday"};
+    static Game shared = new Game();
 
+    public double getGrade() {
+        return grade;
     }
 
-    private void setUpLectures() {
-        for (int i = 1; i <= 9; i++) {
+    public String getDayString() {
+        return days[(currentDay - 1) % 7];
+    }
 
-            Lecture lecture = new Lecture();
+    public int getDayInt() {
+        return currentDay;
+    }
 
-            for (int j = 1; j <= 3; j++) {
-                String slideName = "lec" + i + "_slide" + j;
-                Resources res = getResources();
-                String
-                getResources();
-                ContextCompat.getDrawable(getContext(), slideName);
-            }
+    public void nextDay() {
+        currentDay += 1;
+        homeworkNumber += 1;
+    }
+
+    public void nextQuiz() {
+        quizNumber += 1;
+    }
+
+    public int getHomeworkNumber() {
+        return homeworkNumber;
+    }
+
+    public int getQuizNumber() {
+        return quizNumber;
+    }
+
+    public void nextLecture() {
+        currentLectureIndex += 1;
+    }
+
+    public Lecture getCurrentLecture() {
+        return lectures.get(currentLectureIndex);
+    }
+
+    public void addLecture(Lecture lecture) {
+        lectures.add(lecture);
+    }
+
+    public boolean getFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean f) {
+        followed = f;
+    }
+
+    public boolean followGrade(long timeLeftInMilliseconds) {
+        if ((timeLeftInMilliseconds >= 3000 && timeLeftInMilliseconds <= 6000) && !getFollowed()) {
+            grade += 1;
+            setFollowed(true);
+            return true;
         }
+
+        if ((timeLeftInMilliseconds > 6000 && timeLeftInMilliseconds <= 9000) && !getFollowed()) {
+            grade += 1;
+            Log.d("third slide: ", timeLeftInMilliseconds + "");
+            return true;
+        }
+
+        return false;
+    }
+
+    public void incrementGrade(double num) {
+        grade += num;
+    }
+
+    public boolean getTookQuiz() {
+        return tookQuiz;
+    }
+
+    public void setTookQuiz(boolean q) {
+        tookQuiz = q;
     }
 }

@@ -25,11 +25,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <ViewFlipper
         android:id="@+id/geoffSlide"
-        android:layout_width="378dp"
+        android:layout_width="0dp"
         android:layout_height="207dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,56 +43,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:text="Geoff's Slide"
         android:textColor="@android:color/holo_red_light"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <ImageView
-        android:id="@+id/yourSlide"
-        android:layout_width="378dp"
-        android:layout_height="207dp"
-        android:layout_marginTop="252dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        app:srcCompat="@drawable/lec1_slide1" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Your Slide"
-        android:textColor="@android:color/holo_green_dark"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/geoffSlide" />
-
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/follow_button"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:background="#00AA61"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/round_green_button"
         android:text="Follow"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourSlide" />
+        app:layout_constraintTop_toBottomOf="@+id/geoffSlide" />
+
+    <TextView
+        android:id="@+id/followed_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Followed 0 slides."
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/follow_button" />
 
 </android.support.constraint.ConstraintLayout>

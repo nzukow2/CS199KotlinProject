@@ -1,5 +1,6 @@
 package com.example.thechallen_ge;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -18,6 +19,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
 import java.util.Random;
+
+import android.view.View;
 import android.widget.TextView;
 import com.matthewtamlin.fortytwo.library.answer_view.DecoratedAnswerCard;
 import com.matthewtamlin.fortytwo.library.answer_view.ColorFadeDecorator;
@@ -25,9 +28,10 @@ import com.matthewtamlin.fortytwo.library.answer_view.ColorFadeDecorator.ColorSu
 import android.graphics.Color;
 import android.widget.Button;
 
+
 import com.matthewtamlin.fortytwo.library.answer_view.AnswerView;
 
-public class QuizHomework extends AppCompatActivity {
+public class QuizHomeworkActivity extends AppCompatActivity implements Dialog.DialogListener {
 
     private static final String TAG = "TheChallen_ge_QuizHomework";
     private static RequestQueue requestQueue;
@@ -37,6 +41,11 @@ public class QuizHomework extends AppCompatActivity {
     private boolean submitButtonPressed = false;
     private Button actionButton;
     private Button OHButton;
+    private boolean takingQuiz = false;
+    private int questionNumber = 0;
+    private int numCorrect = 0;
+
+    private TextView type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +64,34 @@ public class QuizHomework extends AppCompatActivity {
         OHButton = findViewById(R.id.officehours_button);
         OHButton.setOnClickListener(v -> goToOfficeHours());
 
+        type = findViewById(R.id.type);
+
         if (questions.size() == 0) {
             startAPICall();
         } else {
             pickQuestion();
         }
+
+        Intent intent = getIntent();
+        takingQuiz = intent.getBooleanExtra("takingQuiz", false);
+
+        TasksActivity.setUpTimer(this);
     }
 
     void goToOfficeHours() {
+        if (submitButtonPressed) {
+            return;
+        }
 
+        int index = new Random().nextInt(group.getAnswers().size());
+
+        while (group.getAnswers().get(index).getAnswer().isCorrect()) {
+            index = new Random().nextInt(group.getAnswers().size());
+        }
+
+        AnswerView toRemove = group.getAnswers().get(index);
+        group.removeAnswer(toRemove);
+        OHButton.setVisibility(View.INVISIBLE);
     }
 
     void submit() {
@@ -77,24 +105,54 @@ public class QuizHomework extends AppCompatActivity {
             }
 
             if (selectedView != null) {
+                submitButtonPressed = true;
+
                 for (AnswerView view : group.getAnswers()) {
                     view.setMarkedStatus(true, true);
-                    submitButtonPressed = true;
                     actionButton.setText("Next Question");
+
+                }
+
+                if (selectedView.getAnswer().isCorrect()) {
+                    numCorrect += 1;
+                }
+
+                String message = "You answered " + numCorrect + " questions correctly.";
+
+                if ((takingQuiz && questionNumber == 3)) {
+
+                    showAlert("Quiz Finished!", message);
+                    Game.shared.incrementGrade(3.33);
+                    Game.shared.nextQuiz();
+                    Game.shared.setTookQuiz(true);
+                } else if (!takingQuiz) {
+                    Game.shared.incrementGrade(1);
+                    showAlert("Homework Finished!", message);
                 }
             }
 
             return;
         }
 
-        submitButtonPressed = false;
         pickQuestion();
         actionButton.setText("Submit");
+        submitButtonPressed = false;
     }
 
     void setUpUI() {
         if (questions.size() == 0) {
             return;
+        }
+
+        if (takingQuiz) {
+            OHButton.setVisibility(View.INVISIBLE);
+            type.setText("Quiz " + Game.shared.getQuizNumber());
+        } else {
+            type.setText("Homework " + Game.shared.getHomeworkNumber());
+        }
+
+        if (displayedQuestion.type.equals("boolean")) {
+            OHButton.setVisibility(View.INVISIBLE);
         }
 
         ArrayList<Answer> answers = new ArrayList<>();
@@ -110,7 +168,7 @@ public class QuizHomework extends AppCompatActivity {
 
         for (int i = 0; i < answers.size(); i++) {
             // Like all views, a Context is needed to instantiate
-            DecoratedAnswerCard answerCard = new DecoratedAnswerCard(QuizHomework.this);
+            DecoratedAnswerCard answerCard = new DecoratedAnswerCard(QuizHomeworkActivity.this);
 
             // False = don't show animations
             answerCard.setAnswer(answers.get(i), false);
@@ -124,6 +182,8 @@ public class QuizHomework extends AppCompatActivity {
             // Show the card in the UI
             group.addAnswer(answerCard);
         }
+
+        questionNumber += 1;
     }
 
     void pickQuestion() {
@@ -131,6 +191,7 @@ public class QuizHomework extends AppCompatActivity {
 
         int index = new Random().nextInt(questions.size());
         displayedQuestion = questions.get(index);
+        questions.remove(index);
         setUpUI();
     }
 
@@ -189,5 +250,21 @@ public class QuizHomework extends AppCompatActivity {
         };
 
         return new ColorFadeDecorator(colorSupplier);
+    }
+
+    private void showAlert(String title, String message) {
+        Dialog dialog = new Dialog();
+
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("message", message);
+        dialog.setArguments(args);
+
+        dialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void onOkayClicked() {
+        finish();
     }
 }

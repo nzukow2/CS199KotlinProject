@@ -1,16 +1,17 @@
 package com.example.thechallen_ge;
-
-import android.media.Image;
-import java.util.List;
 import java.util.ArrayList;
 
 public class Lecture {
-    private ArrayList<Image> slides = new ArrayList<>();
+    private ArrayList<Integer> slides = new ArrayList<>();
 
     Lecture() {
     }
 
-    public void addSlide(Image slide) {
+    public void addSlide(Integer slide) {
         slides.add(slide);
+    }
+
+    public ArrayList<Integer> getSlides() {
+        return slides;
     }
 }
