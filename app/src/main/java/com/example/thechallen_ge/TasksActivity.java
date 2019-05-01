@@ -3,19 +3,22 @@ package com.example.thechallen_ge;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
+import android.view.WindowManager;
 
-public class TasksActivity extends AppCompatActivity implements View.OnClickListener {
+public class TasksActivity extends AppCompatActivity implements View.OnClickListener, Dialog.DialogListener {
     private TextView countDownText;
     private TextView gradeTextView;
     private TextView dayTextView;
+    private TextView MPTextView;
 
     private CountDownTimer countDownTimer;
-    private static long timeLeftInMilliseconds = 30000;
+    private static long timeLeftInMilliseconds;
     private boolean timerRunning = false;
 
     Button lectureButton;
@@ -41,6 +44,9 @@ public class TasksActivity extends AppCompatActivity implements View.OnClickList
         countDownText = findViewById(R.id.countdown_text);
         gradeTextView = findViewById(R.id.grade_text_view);
         dayTextView = findViewById(R.id.day_text_view);
+        MPTextView = findViewById(R.id.mp_text_view);
+
+        timeLeftInMilliseconds = 30000;
 
         startStop();
         setUpUI();
@@ -57,15 +63,22 @@ public class TasksActivity extends AppCompatActivity implements View.OnClickList
     private void setUpUI() {
         gradeTextView.setText("Grade: " + Game.shared.getGrade() + "%");
         dayTextView.setText("Day: " + Game.shared.getDayInt() + " - " + Game.shared.getDayString());
+        MPButton.setText("Work on MP - " + Game.shared.getMPComplete() +"/3 Complete");
     }
 
     private void setUpBasedOnDay() {
         lectureButton.setVisibility(View.GONE);
         homeworkButton.setVisibility(View.VISIBLE);
-        MPButton.setVisibility(View.GONE);
         quizButton.setVisibility(View.GONE);
 
         String dayString = Game.shared.getDayString();
+
+        if (Game.shared.getDayInt() == 11) {
+            MPButton.setVisibility(View.VISIBLE);
+            MPButton.setText("Work on MP - " + Game.shared.getMPComplete() +"/3 Complete");
+            Game.shared.resetMPComplete();
+            MPTextView.setVisibility(View.INVISIBLE);
+        }
 
         if (dayString.equals("Monday") || dayString.equals("Wednesday") || dayString.equals("Friday")) {
             lectureButton.setVisibility(View.VISIBLE);
@@ -98,12 +111,44 @@ public class TasksActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFinish() {
+                checkIfEnd();
                 Game.shared.nextDay();
                 setUpUI();
                 setUpBasedOnDay();
                 timeLeftInMilliseconds = 30000;
-
                 startTimer();
+            }
+        }.start();
+        timerRunning = true;
+    }
+
+    public void checkIfEnd() {
+        if (Game.shared.getDayInt() == 21) {
+            Intent intent = new Intent(this, EndActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    public void MPTimer() {
+        new CountDownTimer(20000, 1000) {
+            @Override
+            public void onTick(long l) {}
+
+            @Override
+            public void onFinish() {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                MPTextView.setVisibility(View.INVISIBLE);
+
+                Game.shared.incrementGrade(5);
+                Game.shared.incrementMPComplete();
+
+                setUpUI();
+
+                if (Game.shared.getMPComplete() == 3) {
+                    MPButton.setVisibility(View.INVISIBLE);
+                    Game.shared.resetMPComplete();
+                }
             }
         }.start();
         timerRunning = true;
@@ -142,13 +187,28 @@ public class TasksActivity extends AppCompatActivity implements View.OnClickList
             case R.id.quiz_button:
                 intent = new Intent(this, QuizHomeworkActivity.class);
                 intent.putExtra("takingQuiz", true);
+                Game.shared.setTookQuiz(true);
                 break;
             case R.id.MP_button:
-                break;
+                if (timeLeftInMilliseconds < 20000) {
+                    String title = "Not Enough Time";
+                    String message = "You do not have enough time today to work on the MP.";
+
+                    TasksActivity.showAlert(getSupportFragmentManager(), title, message);
+
+                    return;
+                }
+
+                MPTextView.setVisibility(View.VISIBLE);
+                MPTimer();
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
 
-        startActivity(intent);
-        v.setVisibility(View.GONE);
+        if (intent != null) {
+            startActivity(intent);
+            v.setVisibility(View.GONE);
+        }
     }
 
     public static CountDownTimer setUpTimer(Activity activity) {
@@ -166,4 +226,18 @@ public class TasksActivity extends AppCompatActivity implements View.OnClickList
 
         return toReturn;
     }
+
+    public static void showAlert(FragmentManager manager, String title, String message) {
+        Dialog dialog = new Dialog();
+
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("message", message);
+        dialog.setArguments(args);
+
+        dialog.show(manager, "");
+    }
+
+    @Override
+    public void onOkayClicked() {}
 }

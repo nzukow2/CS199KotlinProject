@@ -121,13 +121,12 @@ public class QuizHomeworkActivity extends AppCompatActivity implements Dialog.Di
 
                 if ((takingQuiz && questionNumber == 3)) {
 
-                    showAlert("Quiz Finished!", message);
+                    TasksActivity.showAlert(getSupportFragmentManager(), "Quiz Finished!", message);
                     Game.shared.incrementGrade(3.33);
                     Game.shared.nextQuiz();
-                    Game.shared.setTookQuiz(true);
                 } else if (!takingQuiz) {
                     Game.shared.incrementGrade(1);
-                    showAlert("Homework Finished!", message);
+                    TasksActivity.showAlert(getSupportFragmentManager(), "Homework Finished!", message);
                 }
             }
 
@@ -250,17 +249,6 @@ public class QuizHomeworkActivity extends AppCompatActivity implements Dialog.Di
         };
 
         return new ColorFadeDecorator(colorSupplier);
-    }
-
-    private void showAlert(String title, String message) {
-        Dialog dialog = new Dialog();
-
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        args.putString("message", message);
-        dialog.setArguments(args);
-
-        dialog.show(getSupportFragmentManager(), "");
     }
 
     @Override

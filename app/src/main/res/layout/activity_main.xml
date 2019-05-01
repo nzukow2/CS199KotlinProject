@@ -24,7 +24,7 @@
 
 
     <Button
-        android:id="@+id/start_course"
+        android:id="@+id/restart"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -54,7 +54,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_course" />
+        app:layout_constraintTop_toBottomOf="@+id/restart" />
 
     <TextView
         android:id="@+id/textView"

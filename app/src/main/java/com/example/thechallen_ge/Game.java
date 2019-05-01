@@ -1,6 +1,5 @@
 package com.example.thechallen_ge;
 
-import android.content.Intent;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ public class Game {
     private int currentDay = 1;
     private int homeworkNumber = 1;
     private int quizNumber = 1;
+    private int MPComplete = 0;
     private ArrayList<Lecture> lectures = new ArrayList<>();
     private int currentLectureIndex = 0;
     private boolean followed = true;
@@ -93,5 +93,29 @@ public class Game {
 
     public void setTookQuiz(boolean q) {
         tookQuiz = q;
+    }
+
+    public int getMPComplete() {
+        return MPComplete;
+    }
+
+    public void incrementMPComplete() {
+        MPComplete += 1;
+    }
+
+    public void resetMPComplete() {
+        MPComplete = 0;
+    }
+
+    public void reset() {
+        grade = 0;
+        currentDay = 1;
+        homeworkNumber = 1;
+        quizNumber = 1;
+        MPComplete = 0;
+        lectures.clear();
+        currentLectureIndex = 0;
+        followed = false;
+        tookQuiz = false;
     }
 }

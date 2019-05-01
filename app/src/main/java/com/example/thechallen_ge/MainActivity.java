@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.start_course).setOnClickListener(v -> startGame());
+        findViewById(R.id.restart).setOnClickListener(v -> startGame());
     }
 
     void startGame() {
