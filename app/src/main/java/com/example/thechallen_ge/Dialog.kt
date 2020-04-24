@@ -7,7 +7,8 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDialogFragment
 
 class Dialog : AppCompatDialogFragment() {
-
+// Test test
+    //Test test
      private lateinit var listener: DialogListener
      private lateinit var builder: AlertDialog.Builder
 
