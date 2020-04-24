@@ -21,10 +21,10 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     private var countDownTimer: CountDownTimer? = null
     private var timerRunning = false
 
-    internal var lectureButton: Button
-    internal var homeworkButton: Button
-    internal var MPButton: Button
-    internal var quizButton: Button
+    lateinit var lectureButton: Button
+    lateinit var  homeworkButton: Button
+    lateinit var MPButton: Button
+    lateinit var quizButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,9 +59,9 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     }
 
     private fun setUpUI() {
-        gradeTextView!!.text = "Grade: " + Game.getShared().getGrade() + "%"
-        dayTextView!!.text = "Day: " + Game.getShared().getDayInt() + " - " + Game.getShared().getDayString()
-        MPButton.text = "Work on MP - " + Game.getShared().getMPComplete() + "/3 Complete"
+        gradeTextView!!.text = "Grade: " + Game.shared.grade + "%"
+        dayTextView!!.text = "Day: " + Game.shared.dayInt + " - " + Game.shared.dayString
+        MPButton.text = "Work on MP - " + Game.shared.mpComplete + "/3 Complete"
     }
 
     private fun setUpBasedOnDay() {
@@ -69,12 +69,12 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
         homeworkButton.visibility = View.VISIBLE
         quizButton.visibility = View.GONE
 
-        val dayString = Game.getShared().getDayString()
+        val dayString = Game.shared.dayString
 
-        if (Game.getShared().getDayInt() === 11) {
+        if (Game.shared.dayInt === 11) {
             MPButton.visibility = View.VISIBLE
-            MPButton.text = "Work on MP - " + Game.getShared().getMPComplete() + "/3 Complete"
-            Game.getShared().resetMPComplete()
+            MPButton.text = "Work on MP - " + Game.shared.mpComplete + "/3 Complete"
+            Game.shared.resetMPComplete()
             MPTextView!!.visibility = View.INVISIBLE
         }
 
@@ -82,12 +82,12 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
             lectureButton.visibility = View.VISIBLE
         }
 
-        if (dayString == "Tuesday" || dayString == "Wednesday" && !Game.getShared().getTookQuiz()) {
+        if (dayString == "Tuesday" || dayString == "Wednesday" && !Game.shared.tookQuiz) {
             quizButton.visibility = View.VISIBLE
         }
 
         if (dayString == "Thursday") {
-            Game.getShared().setTookQuiz(false)
+            Game.shared.tookQuiz
         }
     }
 
@@ -108,7 +108,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
 
             override fun onFinish() {
                 checkIfEnd()
-                Game.getShared().nextDay()
+                Game.shared.nextDay()
                 setUpUI()
                 setUpBasedOnDay()
                 timeLeftInMilliseconds = 30000
@@ -119,7 +119,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     }
 
     fun checkIfEnd() {
-        if (Game.getShared().getDayInt() === 21) {
+        if (Game.shared.dayInt === 21) {
             val intent = Intent(this, EndActivity::class.java)
             startActivity(intent)
             finish()
@@ -134,14 +134,14 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                 window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 MPTextView!!.visibility = View.INVISIBLE
 
-                Game.getShared().incrementGrade(5)
-                Game.getShared().incrementMPComplete()
+                Game.shared.incrementGrade(5.0)
+                Game.shared.incrementMPComplete()
 
                 setUpUI()
 
-                if (Game.getShared().getMPComplete() === 3) {
+                if (Game.shared.mpComplete === 3) {
                     MPButton.visibility = View.INVISIBLE
-                    Game.getShared().resetMPComplete()
+                    Game.shared.resetMPComplete()
                 }
             }
         }.start()
@@ -178,7 +178,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
             R.id.quiz_button -> {
                 intent = Intent(this, QuizHomeworkActivity::class.java)
                 intent.putExtra("takingQuiz", true)
-                Game.getShared().setTookQuiz(true)
+                Game.shared.tookQuiz
             }
             R.id.MP_button -> {
                 if (timeLeftInMilliseconds < 20000) {

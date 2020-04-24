@@ -30,6 +30,7 @@ import android.widget.Button
 
 
 import com.matthewtamlin.fortytwo.library.answer_view.AnswerView
+import org.json.JSONObject
 
 class QuizHomeworkActivity : AppCompatActivity(), Dialog.DialogListener {
     private val questions = ArrayList<Question>()
@@ -158,7 +159,7 @@ class QuizHomeworkActivity : AppCompatActivity(), Dialog.DialogListener {
 
         answers.add(PojoAnswer(Html.fromHtml(displayedQuestion!!.correct_answer, Html.FROM_HTML_MODE_COMPACT), true))
 
-        for (incorrectAnswer in displayedQuestion!!.incorrect_answers()) {
+        for (incorrectAnswer in displayedQuestion!!.incorrect_answers) {
             answers.add(PojoAnswer(Html.fromHtml(incorrectAnswer, Html.FROM_HTML_MODE_COMPACT), false))
         }
 
