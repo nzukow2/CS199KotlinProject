@@ -195,24 +195,16 @@ class QuizHomeworkActivity : AppCompatActivity(), Dialog.DialogListener {
     /**
      * Make an API call.
      */
-    internal fun startAPICall() {
-        try {
-            val jsonObjectRequest = JsonObjectRequest(
-                    Request.Method.GET,
-                    "https://opentdb.com/api.php?amount=50&category=18", null,
-                    { response ->
-                        Log.d(TAG, response.toString())
-                        parseJSON(response.toString())
-                        pickQuestion()
-                    }, { error -> Log.w(TAG, error.toString()) })
-            requestQueue!!.add<JSONObject>(jsonObjectRequest)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    private fun startAPICall() {
+        val url = "https://opentdb.com/api.php?amount=50&category=18"
 
+        NetworkManager.startAPICall(this, url) { response: String ->
+            parseJSON(response)
+            pickQuestion()
+        }
     }
 
-    internal fun parseJSON(json: String) {
+    private fun parseJSON(json: String) {
         val g = Gson()
 
         try {
