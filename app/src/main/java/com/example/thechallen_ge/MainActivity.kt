@@ -3,6 +3,7 @@ package com.example.thechallen_ge
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             val staffJsonArray = result.getAsJsonArray("staff")
 
             val staff = staffJsonArray.map { g.fromJson(it, Staff::class.java) }
-            print(staff)
+            Log.i("Test", staff[0].name)
 
         } catch (e: Exception) {
             e.printStackTrace()
