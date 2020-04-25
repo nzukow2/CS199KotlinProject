@@ -3,12 +3,13 @@ package com.example.thechallen_ge
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 
 class MainActivity : AppCompatActivity() {
+
+    var staff: List<Staff>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +49,7 @@ class MainActivity : AppCompatActivity() {
             val result = parser.parse(json).asJsonObject
             val staffJsonArray = result.getAsJsonArray("staff")
 
-            val staff = staffJsonArray.map { g.fromJson(it, Staff::class.java) }
-            Log.i("Test", staff[0].name)
+            staff = staffJsonArray.map { g.fromJson(it, Staff::class.java) }
 
         } catch (e: Exception) {
             e.printStackTrace()
