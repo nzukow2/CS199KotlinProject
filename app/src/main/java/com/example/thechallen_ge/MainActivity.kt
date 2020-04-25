@@ -9,6 +9,8 @@ import com.google.gson.JsonParser
 
 class MainActivity : AppCompatActivity() {
 
+    var staff: List<Staff>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainMenuInitializer()
@@ -47,8 +49,7 @@ class MainActivity : AppCompatActivity() {
             val result = parser.parse(json).asJsonObject
             val staffJsonArray = result.getAsJsonArray("staff")
 
-            val staff = staffJsonArray.map { g.fromJson(it, Staff::class.java) }
-            print(staff)
+            staff = staffJsonArray.map { g.fromJson(it, Staff::class.java) }
 
         } catch (e: Exception) {
             e.printStackTrace()
