@@ -73,5 +73,7 @@ class MainActivity : AppCompatActivity() {
             setContentView(R.layout.activity_main)
             mainMenuInitializer()
         }
+
+        val ben = staff?.firstOrNull { it.name == "Ben Nordick" } ?: return
     }
 }
