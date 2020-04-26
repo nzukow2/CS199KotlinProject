@@ -3,12 +3,15 @@ package com.example.thechallen_ge
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 
 class MainActivity : AppCompatActivity() {
 
+    var muteMusic = false
     var staff: List<Staff>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +25,29 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.restart).setOnClickListener({ v -> startGame() })
 
         //Takes us to the cheat terminal
-        val x = findViewById<View>(R.id.gotoTerminalButton)
-
-        x.setOnClickListener {
+        val gotoTerminal = findViewById<View>(R.id.gotoTerminalButton)
+        gotoTerminal.setOnClickListener {
             setContentView(R.layout.cheat_terminal)
             cheatTerminal()
+        }
+
+        //Takes us to settings
+        val gotoSettings = findViewById<View>(R.id.gotoSettingsMenuButton)
+        gotoSettings.setOnClickListener {
+            setContentView(R.layout.setting_menu)
+            settingsMenu()
+        }
+    }
+
+    fun settingsMenu() {
+        val x = findViewById<Button>(R.id.muteMusicButton)
+        x.setOnClickListener {
+            muteMusic = !muteMusic // Note
+            Log.i("test","music is muted: " + muteMusic)
+        }
+        val backToMain = findViewById<Button>(R.id.returnToMainFromSettings)
+        backToMain.setOnClickListener {
+            mainMenuInitializer()
         }
     }
 
@@ -70,7 +91,6 @@ class MainActivity : AppCompatActivity() {
 
         val y = findViewById<View>(R.id.leaveTerminal)
         y.setOnClickListener {
-            setContentView(R.layout.activity_main)
             mainMenuInitializer()
         }
 
