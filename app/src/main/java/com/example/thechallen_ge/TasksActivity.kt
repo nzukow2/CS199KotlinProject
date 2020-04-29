@@ -59,9 +59,9 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     }
 
     private fun setUpUI() {
-        gradeTextView!!.text = "Grade: " + Game.shared.grade + "%"
-        dayTextView!!.text = "Day: " + Game.shared.dayInt + " - " + Game.shared.dayString
-        MPButton.text = "Work on MP - " + Game.shared.mpComplete + "/3 Complete"
+        gradeTextView!!.text = "Grade: " + Game.grade + "%"
+        dayTextView!!.text = "Day: " + Game.dayInt + " - " + Game.dayString
+        MPButton.text = "Work on MP - " + Game.mpComplete + "/3 Complete"
     }
 
     private fun setUpBasedOnDay() {
@@ -69,12 +69,12 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
         homeworkButton.visibility = View.VISIBLE
         quizButton.visibility = View.GONE
 
-        val dayString = Game.shared.dayString
+        val dayString = Game.dayString
 
-        if (Game.shared.dayInt === 11) {
+        if (Game.dayInt === 11) {
             MPButton.visibility = View.VISIBLE
-            MPButton.text = "Work on MP - " + Game.shared.mpComplete + "/3 Complete"
-            Game.shared.resetMPComplete()
+            MPButton.text = "Work on MP - " + Game.mpComplete + "/3 Complete"
+            Game.resetMPComplete()
             MPTextView!!.visibility = View.INVISIBLE
         }
 
@@ -82,12 +82,12 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
             lectureButton.visibility = View.VISIBLE
         }
 
-        if (dayString == "Tuesday" || dayString == "Wednesday" && !Game.shared.tookQuiz) {
+        if (dayString == "Tuesday" || dayString == "Wednesday" && !Game.tookQuiz) {
             quizButton.visibility = View.VISIBLE
         }
 
         if (dayString == "Thursday") {
-            Game.shared.tookQuiz
+            Game.tookQuiz
         }
     }
 
@@ -108,7 +108,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
 
             override fun onFinish() {
                 checkIfEnd()
-                Game.shared.nextDay()
+                Game.nextDay()
                 setUpUI()
                 setUpBasedOnDay()
                 timeLeftInMilliseconds = 30000
@@ -119,7 +119,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     }
 
     fun checkIfEnd() {
-        if (Game.shared.dayInt === 21) {
+        if (Game.dayInt === 21) {
             val intent = Intent(this, EndActivity::class.java)
             startActivity(intent)
             finish()
@@ -134,14 +134,14 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                 window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 MPTextView!!.visibility = View.INVISIBLE
 
-                Game.shared.incrementGrade(5.0)
-                Game.shared.incrementMPComplete()
+                Game.incrementGrade(5.0)
+                Game.incrementMPComplete()
 
                 setUpUI()
 
-                if (Game.shared.mpComplete === 3) {
+                if (Game.mpComplete === 3) {
                     MPButton.visibility = View.INVISIBLE
-                    Game.shared.resetMPComplete()
+                    Game.resetMPComplete()
                 }
             }
         }.start()
@@ -178,14 +178,14 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
             R.id.quiz_button -> {
                 intent = Intent(this, QuizHomeworkActivity::class.java)
                 intent.putExtra("takingQuiz", true)
-                Game.shared.tookQuiz
+                Game.tookQuiz
             }
             R.id.MP_button -> {
                 if (timeLeftInMilliseconds < 20000) {
                     val title = "Not Enough Time"
                     val message = "You do not have enough time today to work on the MP."
 
-                    TasksActivity.showAlert(supportFragmentManager, title, message)
+                    showAlert(supportFragmentManager, title, message)
 
                     return
                 }

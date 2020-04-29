@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/terminalEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="95dp"
@@ -28,12 +28,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/unlockButton"
         android:layout_width="210dp"
         android:layout_height="51dp"
         android:layout_marginStart="96dp"
         android:layout_marginBottom="279dp"
-        android:text="Button"
+        android:text="Unlock"
         app:layout_constraintBottom_toTopOf="@+id/leaveTerminal"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

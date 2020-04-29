@@ -4,7 +4,7 @@ import android.util.Log
 
 import java.util.ArrayList
 
-class Game {
+object Game {
     var grade = 0.0
         private set
     var days = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
@@ -82,10 +82,5 @@ class Game {
         currentLectureIndex = 0
         followed = false
         tookQuiz = false
-    }
-
-    companion object {
-
-        internal var shared = Game()
     }
 }

@@ -1,15 +1,20 @@
 package com.example.thechallen_ge
 
+import android.content.ClipData.Item
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import com.example.thechallen_ge.TasksActivity.Companion.showAlert
 import com.google.gson.Gson
 import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), Dialog.DialogListener {
 
     var muteMusic = false
     var staff: List<Staff>? = null
@@ -43,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val x = findViewById<Button>(R.id.muteMusicButton)
         x.setOnClickListener {
             muteMusic = !muteMusic // Note
-            Log.i("test","music is muted: " + muteMusic)
+            Log.i("test", "music is muted: " + muteMusic)
         }
         val backToMain = findViewById<Button>(R.id.returnToMainFromSettings)
         backToMain.setOnClickListener {
@@ -70,7 +75,15 @@ class MainActivity : AppCompatActivity() {
             val result = parser.parse(json).asJsonObject
             val staffJsonArray = result.getAsJsonArray("staff")
 
-            staff = staffJsonArray.map { g.fromJson(it, Staff::class.java) }
+            //staff = staffJsonArray.map { g.fromJson(it, Staff::class.java) }
+
+//            staff = staffJsonArray.map {
+//                val staffJsonObject = it.asJsonObject
+//                Staff(staffJsonObject.get("name").asString, staffJsonObject.get("email").asString, Role.HEAD)
+//            }
+
+            staff = Gson().fromJson(staffJsonArray,
+                    object : TypeToken<List<Staff>>(){}.type)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -79,21 +92,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     //Starts the game
-    internal fun startGame() {
+    private fun startGame() {
         val intent = Intent(this, TasksActivity::class.java)
         startActivity(intent)
         finish()
     }
 
-    //
+    //Cheat Terminal
     fun cheatTerminal() {
         startAPICall()
 
-        val y = findViewById<View>(R.id.leaveTerminal)
-        y.setOnClickListener {
+        findViewById<Button>(R.id.leaveTerminal).setOnClickListener {
             mainMenuInitializer()
         }
 
-        val ben = staff?.firstOrNull { it.name == "Ben Nordick" } ?: return
+        findViewById<Button>(R.id.unlockButton).setOnClickListener {
+            val input = findViewById<EditText>(R.id.terminalEditText).text.toString()
+            val staffMember = staff?.firstOrNull { it.name == input } ?: return@setOnClickListener
+
+            val extraCredit = when (staffMember.role) {
+                Role.HEAD -> 35.00
+                Role.TA -> 30.00
+                Role.DEVELOPER -> 25.00
+                Role.CAPTAIN -> 20.00
+                Role.ASSOCIATE -> 15.00
+                Role.ASSISTANT -> 10.00
+            }
+
+            Game.incrementGrade(extraCredit)
+
+            val title = "Extra Credit"
+            val message = "You earned $extraCredit% extra credit!"
+
+            showAlert(supportFragmentManager, title, message)
+        }
     }
+
+    override fun onOkayClicked() { }
 }

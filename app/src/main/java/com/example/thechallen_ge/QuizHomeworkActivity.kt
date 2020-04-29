@@ -120,10 +120,10 @@ class QuizHomeworkActivity : AppCompatActivity(), Dialog.DialogListener {
                 if (takingQuiz && questionNumber == 3) {
 
                     TasksActivity.showAlert(supportFragmentManager, "Quiz Finished!", message)
-                    Game.shared.incrementGrade(3.33)
-                    Game.shared.nextQuiz()
+                    Game.incrementGrade(3.33)
+                    Game.nextQuiz()
                 } else if (!takingQuiz) {
-                    Game.shared.incrementGrade(1.0)
+                    Game.incrementGrade(1.0)
                     TasksActivity.showAlert(supportFragmentManager, "Homework Finished!", message)
                 }
             }
@@ -143,9 +143,9 @@ class QuizHomeworkActivity : AppCompatActivity(), Dialog.DialogListener {
 
         if (takingQuiz) {
             OHButton!!.visibility = View.INVISIBLE
-            type!!.text = "Quiz " + Game.shared.quizNumber
+            type!!.text = "Quiz " + Game.quizNumber
         } else {
-            type!!.text = "Homework " + Game.shared.homeworkNumber
+            type!!.text = "Homework " + Game.homeworkNumber
         }
 
         if (displayedQuestion!!.type.equals("boolean")) {

@@ -18,8 +18,8 @@ class EndActivity : AppCompatActivity() {
         resetButton = findViewById(R.id.restart)
         resetButton.setOnClickListener { v -> resetButtonPressed() }
         endTextView = findViewById(R.id.end_text_view)
-        endTextView.text = "Chuchu says you earned a " + Game.shared.grade + "% in the class."
-        Game.shared.reset()
+        endTextView.text = "Chuchu says you earned a " + Game.grade + "% in the class."
+        Game.reset()
     }
 
     private fun resetButtonPressed() {

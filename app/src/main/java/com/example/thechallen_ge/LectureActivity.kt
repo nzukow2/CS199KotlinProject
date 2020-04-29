@@ -27,7 +27,7 @@ class LectureActivity : AppCompatActivity() {
         followedTextView = findViewById(R.id.followed_text_view)
 
         setUpLectures()
-        for (image in Game.shared.currentLecture.slides) {
+        for (image in Game.currentLecture.slides) {
             setUpGeoffSlide(image)
         }
 
@@ -37,14 +37,14 @@ class LectureActivity : AppCompatActivity() {
                 timeLeftInMilliseconds += 1000
 
                 if (timeLeftInMilliseconds % 3 == 0L) {
-                    Game.shared.followed = false
+                    Game.followed = false
                 }
 
                 if (timeLeftInMilliseconds == 9000L) {
                     countUpTimer!!.cancel()
 
                     geoffSlide!!.stopFlipping()
-                    Game.shared.nextLecture()
+                    Game.nextLecture()
                     finish()
                 }
             }
@@ -82,7 +82,7 @@ class LectureActivity : AppCompatActivity() {
                 lecture.addSlide(resID)
             }
 
-            Game.shared.addLecture(lecture)
+            Game.addLecture(lecture)
         }
     }
 
@@ -130,7 +130,7 @@ class LectureActivity : AppCompatActivity() {
     }
 
     fun follow() {
-        if (Game.shared.followGrade(timeLeftInMilliseconds)) {
+        if (Game.followGrade(timeLeftInMilliseconds)) {
             slideCounter++
             followedTextView!!.text = "Followed $slideCounter slides."
         }
