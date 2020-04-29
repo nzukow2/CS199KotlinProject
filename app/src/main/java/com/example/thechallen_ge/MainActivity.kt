@@ -93,7 +93,5 @@ class MainActivity : AppCompatActivity() {
         y.setOnClickListener {
             mainMenuInitializer()
         }
-
-        val ben = staff?.firstOrNull { it.name == "Ben Nordick" } ?: return
     }
 }
