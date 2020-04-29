@@ -25,7 +25,9 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     lateinit var  homeworkButton: Button
     lateinit var MPButton: Button
     lateinit var quizButton: Button
+    lateinit var extraCreditButton: Button
 
+    //
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tasks)
@@ -34,11 +36,13 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
         homeworkButton = findViewById(R.id.homework_button)
         MPButton = findViewById(R.id.MP_button)
         quizButton = findViewById(R.id.quiz_button)
+        extraCreditButton = findViewById(R.id.gotoExtraCredit)
 
         lectureButton.setOnClickListener(this)
         homeworkButton.setOnClickListener(this)
         MPButton.setOnClickListener(this)
         quizButton.setOnClickListener(this)
+        extraCreditButton.setOnClickListener(this)
 
         countDownText = findViewById(R.id.countdown_text)
         gradeTextView = findViewById(R.id.grade_text_view)
