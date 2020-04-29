@@ -195,6 +195,9 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                 window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
+            R.id.gotoExtraCredit -> {
+                intent = Intent(this, ExtraCredit::class.java)
+            }
         }
 
         if (intent != null) {
