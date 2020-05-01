@@ -12,6 +12,10 @@ import android.widget.Button
 import android.view.WindowManager
 import com.example.thechallen_ge.TasksActivity.Companion.timeLeftInMilliseconds
 
+interface TasksActivityDelegate {
+    fun timeLeft(timeLeftInMilliseconds: Long)
+}
+
 class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogListener {
     private var countDownText: TextView? = null
     private var gradeTextView: TextView? = null
@@ -26,6 +30,8 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     lateinit var MPButton: Button
     lateinit var quizButton: Button
     lateinit var extraCreditButton: Button
+
+    lateinit var delegate: TasksActivityDelegate
 
     //
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,6 +114,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
             override fun onTick(l: Long) {
                 timeLeftInMilliseconds = l
                 updateTimer()
+                delegate.timeLeft(l)
             }
 
             override fun onFinish() {
@@ -200,7 +207,9 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
             R.id.gotoExtraCredit -> {
-                intent = Intent(this, ExtraCredit::class.java)
+                val extraCredit = ExtraCredit()
+                delegate = extraCredit
+                intent = Intent(this, extraCredit::class.java)
             }
         }
 
