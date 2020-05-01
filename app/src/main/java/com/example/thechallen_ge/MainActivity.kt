@@ -2,6 +2,7 @@ package com.example.thechallen_ge
 
 import android.content.ClipData.Item
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -18,10 +19,13 @@ class MainActivity : AppCompatActivity(), Dialog.DialogListener {
 
     var muteMusic = false
     var staff: List<Staff>? = null
+    var music : MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainMenuInitializer()
+
+        //music?.setVolume(100.00,100)
     }
 
     //Initializes all the buttons in the main menu
@@ -29,6 +33,10 @@ class MainActivity : AppCompatActivity(), Dialog.DialogListener {
         setContentView(R.layout.activity_main)
         findViewById<View>(R.id.restart).setOnClickListener({ v -> startGame() })
 
+        music = MediaPlayer.create(this, R.raw.music)
+        music?.start()
+        music?.setLooping(true)
+        music?.setVolume(10000F, 10000F)
         //Takes us to the cheat terminal
         val gotoTerminal = findViewById<View>(R.id.gotoTerminalButton)
         gotoTerminal.setOnClickListener {

@@ -64,6 +64,10 @@ object Game {
         grade += num
     }
 
+    fun setGrade(num: Double) {
+        grade = num
+    }
+
     fun incrementMPComplete() {
         mpComplete += 1
     }

@@ -31,7 +31,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     lateinit var quizButton: Button
     lateinit var extraCreditButton: Button
 
-    lateinit var delegate: TasksActivityDelegate
+    var delegate: TasksActivityDelegate? = null
 
     //
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,7 +114,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
             override fun onTick(l: Long) {
                 timeLeftInMilliseconds = l
                 updateTimer()
-                delegate.timeLeft(l)
+                delegate?.timeLeft(l)
             }
 
             override fun onFinish() {
