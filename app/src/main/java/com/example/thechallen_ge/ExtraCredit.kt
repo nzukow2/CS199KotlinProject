@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.ImageView
 
-class ExtraCredit : AppCompatActivity() {
+class ExtraCredit : AppCompatActivity(), TasksActivityDelegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_extra_credit)
@@ -18,4 +18,7 @@ class ExtraCredit : AppCompatActivity() {
         TasksActivity.setUpTimer(this)
     }
 
+    override fun timeLeft(timeLeftInMilliseconds: Long) {
+        TODO("Not yet implemented")
+    }
 }
