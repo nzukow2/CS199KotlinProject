@@ -24,8 +24,14 @@ class MainActivity : AppCompatActivity(), Dialog.DialogListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainMenuInitializer()
+        startMainMusic()
+    }
 
-        //music?.setVolume(100.00,100)
+    fun startMainMusic() {
+        music = MediaPlayer.create(this, R.raw.music)
+        music?.start()
+        music?.setLooping(true)
+        music?.setVolume(10000F, 10000F)
     }
 
     //Initializes all the buttons in the main menu
@@ -33,10 +39,6 @@ class MainActivity : AppCompatActivity(), Dialog.DialogListener {
         setContentView(R.layout.activity_main)
         findViewById<View>(R.id.restart).setOnClickListener({ v -> startGame() })
 
-        music = MediaPlayer.create(this, R.raw.music)
-        music?.start()
-        music?.setLooping(true)
-        music?.setVolume(10000F, 10000F)
         //Takes us to the cheat terminal
         val gotoTerminal = findViewById<View>(R.id.gotoTerminalButton)
         gotoTerminal.setOnClickListener {
