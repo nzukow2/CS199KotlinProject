@@ -2,15 +2,15 @@ package com.example.thechallen_ge
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import android.widget.Button
 import android.view.WindowManager
-import com.example.thechallen_ge.TasksActivity.Companion.timeLeftInMilliseconds
+import android.widget.Button
+import android.widget.TextView
+import java.text.DecimalFormat
 
 interface TasksActivityDelegate {
     fun timeLeft(timeLeftInMilliseconds: Long)
@@ -21,8 +21,6 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     private var gradeTextView: TextView? = null
     private var dayTextView: TextView? = null
     private var MPTextView: TextView? = null
-
-    lateinit var extraCredit: ExtraCredit
 
     private var countDownTimer: CountDownTimer? = null
     private var timerRunning = false
@@ -71,7 +69,9 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     }
 
     private fun setUpUI() {
-        gradeTextView!!.text = "Grade: " + Game.grade + "%"
+        val myFormatter = DecimalFormat("#.##")
+
+        gradeTextView!!.text = "Grade: " + myFormatter.format(Game.grade) + "%"
         dayTextView!!.text = "Day: " + Game.dayInt + " - " + Game.dayString
         MPButton.text = "Work on MP - " + Game.mpComplete + "/3 Complete"
     }
@@ -209,7 +209,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
             R.id.gotoExtraCredit -> {
-                //val extraCredit = ExtraCredit()
+                extraCredit = ExtraCredit()
                 delegate = extraCredit
                 intent = Intent(this, extraCredit::class.java)
             }
@@ -224,6 +224,8 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     override fun onOkayClicked() {}
 
     companion object {
+
+        lateinit var extraCredit: ExtraCredit
         private var timeLeftInMilliseconds: Long = 0
 
         fun setUpTimer(activity: Activity): CountDownTimer {
@@ -234,11 +236,11 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                 }
 
                 override fun onFinish() {
-                    if (bean) {
-                        var x = Game.grade
-                        x = Math.floor(x)
-                        Game.setGrade(x)
-                        bean = false
+                    if (extraCredit.bean) {
+                        //var x = Game.grade
+                        //x = Math.floor(x)
+                        //Game.setGrade(x)
+                        extraCredit.bean = false
                     }
                     activity.finish()
                 }
