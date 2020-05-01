@@ -58,7 +58,22 @@ class MainActivity : AppCompatActivity(), Dialog.DialogListener {
         val x = findViewById<Button>(R.id.muteMusicButton)
         x.setOnClickListener {
             muteMusic = !muteMusic // Note
-            Log.i("test", "music is muted: " + muteMusic)
+            Log.i("music", "music is muted: " + muteMusic)
+            if (muteMusic) {
+                music?.pause()
+            } else {
+                music?.start()
+                music?.setVolume(1000F,1000F)
+            }
+        }
+
+        val y = findViewById<Button>(R.id.resetMusicButton)
+        y.setOnClickListener {
+            music?.stop()
+            music = MediaPlayer.create(this, R.raw.music)
+            music?.start()
+            music?.setVolume(1000F,1000F)
+            muteMusic = false
         }
         val backToMain = findViewById<Button>(R.id.returnToMainFromSettings)
         backToMain.setOnClickListener {
