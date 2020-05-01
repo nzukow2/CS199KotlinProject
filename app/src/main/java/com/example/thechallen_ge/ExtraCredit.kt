@@ -28,11 +28,5 @@ class ExtraCredit : AppCompatActivity(), TasksActivityDelegate {
         //TODO("Not yet implemented")
         Log.i("test", "Outside the timeleft if!")
         Log.i("test","The time left is: " + timeLeftInMilliseconds)
-        if (bean && timeLeftInMilliseconds <= 5000) {
-            var x = Game.grade
-            x = Math.floor(x)
-            Game.setGrade(x)
-            bean = false
-        }
     }
 }

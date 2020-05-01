@@ -5,7 +5,7 @@ import android.util.Log
 import java.util.ArrayList
 
 object Game {
-    var grade = 0.0
+    var grade: Double = 0.0
         private set
     var days = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     var dayInt = 1

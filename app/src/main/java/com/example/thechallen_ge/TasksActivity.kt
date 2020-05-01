@@ -22,6 +22,8 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
     private var dayTextView: TextView? = null
     private var MPTextView: TextView? = null
 
+    lateinit var extraCredit: ExtraCredit
+
     private var countDownTimer: CountDownTimer? = null
     private var timerRunning = false
 
@@ -207,7 +209,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
             R.id.gotoExtraCredit -> {
-                val extraCredit = ExtraCredit()
+                //val extraCredit = ExtraCredit()
                 delegate = extraCredit
                 intent = Intent(this, extraCredit::class.java)
             }
@@ -232,6 +234,12 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                 }
 
                 override fun onFinish() {
+                    if (bean) {
+                        var x = Game.grade
+                        x = Math.floor(x)
+                        Game.setGrade(x)
+                        bean = false
+                    }
                     activity.finish()
                 }
             }.start()
