@@ -12,7 +12,10 @@ class ExtraCredit : AppCompatActivity() {
         var x = findViewById<ImageView>(R.id.ecButton)
         x.setOnClickListener() {
             Log.i("test","This is a clicker button test")
+            Game.incrementGrade(0.15)
+            Log.i("test","Grade is: " + Game.grade)
         }
+        TasksActivity.setUpTimer(this)
     }
 
 }
