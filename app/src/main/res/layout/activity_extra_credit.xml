@@ -10,9 +10,11 @@
         android:id="@+id/ecButton"
         android:layout_width="321dp"
         android:layout_height="251dp"
+        android:layout_marginStart="156dp"
         android:layout_marginTop="172dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginEnd="156dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/caillou" />
 
@@ -22,17 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
         android:layout_marginTop="92dp"
+        android:layout_marginEnd="156dp"
         android:text="Click Caillou for extra credit!"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/ecPointsShower"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="212dp"
-        android:layout_marginTop="40dp"
-        android:text="ecHere"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

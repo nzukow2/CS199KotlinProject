@@ -211,7 +211,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
             R.id.gotoExtraCredit -> {
                 extraCredit = ExtraCredit()
                 delegate = extraCredit
-                intent = Intent(this, extraCredit::class.java)
+                intent = Intent(this, extraCredit!!::class.java)
             }
         }
 
@@ -225,7 +225,7 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
 
     companion object {
 
-        lateinit var extraCredit: ExtraCredit
+        var extraCredit: ExtraCredit? = null
         private var timeLeftInMilliseconds: Long = 0
 
         fun setUpTimer(activity: Activity): CountDownTimer {
@@ -236,11 +236,11 @@ class TasksActivity : AppCompatActivity(), View.OnClickListener, Dialog.DialogLi
                 }
 
                 override fun onFinish() {
-                    if (extraCredit.bean) {
+                    if (extraCredit != null && extraCredit!!.bean) {
                         //var x = Game.grade
                         //x = Math.floor(x)
                         //Game.setGrade(x)
-                        extraCredit.bean = false
+                        extraCredit!!.bean = false
                     }
                     activity.finish()
                 }

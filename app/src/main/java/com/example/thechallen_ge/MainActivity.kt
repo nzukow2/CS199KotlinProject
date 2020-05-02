@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity(), Dialog.DialogListener {
     }
 
     private fun parseJSON(json: String) {
-        val g = Gson()
 
         try {
             val parser = JsonParser()
